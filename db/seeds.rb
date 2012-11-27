@@ -21,3 +21,22 @@ movies = [{:title => 'Aladdin', :rating => 'G', :release_date => '25-Nov-1992'},
 movies.each do |movie|
   Movie.create!(movie)
 end
+
+
+movie_ids = []
+1000.times do |i|
+  time=Time.now
+  movie = Movie.create!(:title => "Movie_#{i}", :release_date => time, :rating => "G")
+  movie_ids << movie.id
+end
+
+1000.times do |i|
+  goer = Moviegoer.create!(:name => "Person_#{i}")
+  20.times do |j|
+    movie_id = movie_ids[(1000*i +j)%1000] #should give each number of movies an equal number of reviews
+    Review.create!(:movie_id => movie_id, :moviegoer_id => goer.id, :score => 3)
+  end
+end
+
+
+end
