@@ -85,6 +85,32 @@ class MoviesController < ApplicationController
     @score = @reviews.inject(0){|sum,r| sum+r.score}/@reviews.count unless @reviews.empty?   
   end
 
+  def benchmark
+    @results=[]
+    times_to_run=Movie.count/2
+    search_movies=Movie.all(:limit=>times_to_run)
+    reviews_total_time=0
+    search_movie=Movie.first
+    start_time=Time.now
+    search_movies.each do |bench_movie|
+       reviews = bench_movie.reviews 
+       reviews.each {|r| r}
+    end
+    total_time=Time.now - start_time
+    @results<<{:action => "Scores", :times_run => times_to_run, :time=>total_time.round(5)}
+
+    start_time=Time.now
+    search_movies.each do |bench_movie|
+      bench_movie.moviegoers.each do |mg|
+        mg.movies.each{|m| m}
+      end
+    end
+
+    total_time=Time.now - start_time
+    @results<<{:action => "Viewed With", :times_run => times_to_run, :time=>total_time.round(5)}
+  end
+
+
   def viewed_with
     @movie = Movie.find_by_id(params[:id])
     if @movie.blank?
