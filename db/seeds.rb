@@ -5,38 +5,40 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-
+=begin
 movies = [{:title => 'Aladdin', :rating => 'G', :release_date => '25-Nov-1992'},
     	  {:title => 'The Terminator', :rating => 'R', :release_date => '26-Oct-1984'},
     	  {:title => 'When Harry Met Sally', :rating => 'R', :release_date => '21-Jul-1989'},
-      	  {:title => 'The Help', :rating => 'PG-13', :release_date => '10-Aug-2011'},
-      	  {:title => 'Chocolat', :rating => 'PG-13', :release_date => '5-Jan-2001'},
-      	  {:title => 'Amelie', :rating => 'R', :release_date => '25-Apr-2001'},
-      	  {:title => '2001: A Space Odyssey', :rating => 'G', :release_date => '6-Apr-1968'},
-      	  {:title => 'The Incredibles', :rating => 'PG', :release_date => '5-Nov-2004'},
+      	  {:title => 'The Help', :rating => 'PG-13', :release_date => '10-Aug-review_count11'},
+      	  {:title => 'Chocolat', :rating => 'PG-13', :release_date => '5-Jan-review_count01'},
+      	  {:title => 'Amelie', :rating => 'R', :release_date => '25-Apr-review_count01'},
+      	  {:title => 'review_count01: A Space Odyssey', :rating => 'G', :release_date => '6-Apr-1968'},
+      	  {:title => 'The Incredibles', :rating => 'PG', :release_date => '5-Nov-review_count04'},
       	  {:title => 'Raiders of the Lost Ark', :rating => 'PG', :release_date => '12-Jun-1981'},
-      	  {:title => 'Chicken Run', :rating => 'G', :release_date => '21-Jun-2000'},
+      	  {:title => 'Chicken Run', :rating => 'G', :release_date => '21-Jun-review_count00'},
   	 ]
 
 movies.each do |movie|
   Movie.create!(movie)
 end
-
-
+=end
+movie_count=250
+review_count=20
 movie_ids = []
-1000.times do |i|
+movie_count.times do |i|
   time=Time.now
   movie = Movie.create!(:title => "Movie_#{i}", :release_date => time, :rating => "G")
+  puts "#{i} movies created"
   movie_ids << movie.id
 end
 
-1000.times do |i|
+movie_count.times do |i|
+ puts("Number of reviews of created is : #{review_count*i}")
   goer = Moviegoer.create!(:name => "Person_#{i}")
-  20.times do |j|
-    movie_id = movie_ids[(1000*i +j)%1000] #should give each number of movies an equal number of reviews
+  review_count.times do |j|
+    movie_id = movie_ids[(i+j) % movie_count] #should give each number of movies an equal number of reviews
     Review.create!(:movie_id => movie_id, :moviegoer_id => goer.id, :score => 3)
   end
 end
 
 
-end

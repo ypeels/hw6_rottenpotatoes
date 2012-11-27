@@ -1,5 +1,8 @@
 class Movie < ActiveRecord::Base
-  def self.all_ratings
+  has_many :reviews  
+  has_many :moviegoers, :through => :reviews  
+
+def self.all_ratings
     %w(G PG PG-13 NC-17 R)
   end
 

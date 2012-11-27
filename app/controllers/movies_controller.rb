@@ -33,7 +33,7 @@ class MoviesController < ApplicationController
       flash.keep
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
-    @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
+    @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering,:limit=>10)
   end
 
   def new
@@ -73,5 +73,36 @@ class MoviesController < ApplicationController
     end
     @movies = Movie.find_all_by_director(@director)
   end
+
+  def score
+    @movie = Movie.find_by_id(params[:id])
+    if @movie.blank?
+      flash[:warning] = "#{params[:id]} is an invalid id"
+      redirect_to movies_path and return
+    end
+    @reviews = @movie.reviews
+    @score=0 
+    @score = @reviews.inject(0){|sum,r| sum+r.score}/@reviews.count unless @reviews.empty?   
+  end
+
+  def viewed_with
+    @movie = Movie.find_by_id(params[:id])
+    if @movie.blank?
+      flash[:warning] = "#{params[:id]} is an invalid id"
+      redirect_to movies_path and return
+    end
+  
+    @moviegoers=@movie.moviegoers(:include => :reviews)
+    @similarMovies=[]
+    @moviegoers.each do |mg|
+      mg.movies.each do |m|
+        @similarMovies << m
+      end
+    
+    end
+    @similarMovies.uniq!
+   end
+
+  
 
 end
