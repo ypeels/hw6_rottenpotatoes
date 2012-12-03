@@ -88,28 +88,30 @@ class MoviesController < ApplicationController
   end
 
   def benchmark
+    benchType=params[:type]
     @results=[]
     times_to_run=Movie.count/2
     search_movies=Movie.all(:limit=>times_to_run)
-    reviews_total_time=0
-    search_movie=Movie.first
-    start_time=Time.now
-    search_movies.each do |bench_movie|
-       reviews = bench_movie.reviews 
-       reviews.each {|r| r}
-    end
-    total_time=Time.now - start_time
-    @results<<{:action => "Scores", :times_run => times_to_run, :time=>total_time.round(5)}
+    search_goers=Moviegoer.all(:limit=>times_to_run)
+    case benchType
 
-    start_time=Time.now
-    search_movies.each do |bench_movie|
-      bench_movie.moviegoers.each do |mg|
-        mg.movies.each{|m| m}
+    when "movies"
+      start_time=Time.now
+      search_movies.each do |bench_movie|
+         reviews = bench_movie.reviews 
+         reviews.each {|r| r}
       end
+      total_time=Time.now - start_time
+      @results<<{:action => "movie.reviews", :times_run => times_to_run, :time=>total_time.round(5)}
+    when "moviegoers"
+      start_time=Time.now     
+      search_goers.each do |g|
+         reviews = g.reviews 
+         reviews.each {|r| r}
+      end 
+      total_time=Time.now - start_time
+      @results<<{:action => "moviegoer.reviews", :times_run => times_to_run, :time=>total_time.round(5)}
     end
-
-    total_time=Time.now - start_time
-    @results<<{:action => "Viewed With", :times_run => times_to_run, :time=>total_time.round(5)}
   end
 
 

@@ -9,6 +9,8 @@ gem 'rails', '3.1.0'
 group :test do
   gem 'cucumber-rails'
   gem 'cucumber-rails-training-wheels'
+  gem 'rspec-rails'
+  gem 'simplecov'
 end
 group :development, :test do
   gem 'sqlite3'
@@ -16,8 +18,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
-  gem 'rspec-rails'
-  gem 'simplecov'
+ 
 end
 group :production do
   gem 'pg'

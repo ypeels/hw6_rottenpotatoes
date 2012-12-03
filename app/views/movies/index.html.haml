@@ -26,4 +26,7 @@
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
-= link_to 'Benchmark', benchmark_path
+<br/>
+= link_to 'Benchmark moviegoer.reviews', benchmark_path(:type=>'moviegoers')
+<br/>
+= link_to 'Benchmark movie.reviews', benchmark_path(:type=>'movies')

@@ -16,7 +16,7 @@ Rottenpotatoes::Application.routes.draw do
   match 'movies/director/:id' => 'movies#director', :as => :movies_director
   match 'movies/score/:id' => 'movies#score', :as => :movies_score
   match 'movies/viewed_with/:id' => 'movies#viewed_with', :as => :movies_viewed_with
-  match '/benchmark' => 'movies#benchmark', :as => :benchmark
+  match '/benchmark/:type' => 'movies#benchmark', :as => :benchmark
 
   # Sample resource route with options:
   #   resources :products do
